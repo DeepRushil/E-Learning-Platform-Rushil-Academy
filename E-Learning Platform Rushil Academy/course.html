@@ -1,0 +1,106 @@
+<!-- course.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Details</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div id="navbar"></div>
+
+    <!-- Course Details -->
+    <main class="course-detail" id="course-detail">
+        <!-- Course details will be dynamically injected here -->
+    </main>
+
+    <!-- Popup Notification -->
+    <div id="popup" class="popup">Course added successfully!</div>
+
+    <script src="script.js"></script>
+    <script>
+        // Read URL parameters to determine the selected course
+        const urlParams = new URLSearchParams( window.location.search );
+        const courseName = urlParams.get( 'course' );
+
+        // Course data
+        const courses = {
+            'HTML': {
+                title: 'HTML',
+                description: 'Learn the basics of HTML for web development. This course covers the structure of web pages, basic tags, and how to create simple web content.',
+                image: './assets/WhatsApp Image 2024-09-09 at 02.13.28.jpeg'
+            },
+            'Python': {
+                title: 'Python',
+                description: 'Master Python programming for data science, AI, and web development. This course covers Python syntax, libraries, and frameworks for building robust applications.',
+                image: './assets/WhatsApp Image 2024-09-09 at 02.14.45.jpeg'
+            },
+            'CSS': {
+                title: 'CSS',
+                description: 'Understand the art of styling web pages using CSS. Learn about styling techniques, animations, and responsive design practices.',
+                image: './assets/WhatsApp Image 2024-09-09 at 02.13.54.jpeg'
+            },
+            'JavaScript': {
+                title: 'JavaScript',
+                description: 'Learn JavaScript for dynamic and interactive web development. Explore the fundamentals, ES6+ features, and how to manipulate the DOM.',
+                image: './assets/WhatsApp Image 2024-09-09 at 02.15.12.jpeg'
+            },
+            'FullStack': {
+                title: 'Full Stack Development',
+                description: 'Become a full stack developer by mastering both frontend and backend technologies. This course includes HTML, CSS, JavaScript, Node.js, and databases.',
+                image: './assets/WhatsApp Image 2024-09-09 at 02.15.01.jpeg'
+            },
+            'DSA': {
+                title: 'Data Structures and Algorithms (DSA)',
+                description: 'Learn fundamental data structures and algorithms for efficient problem-solving. This course covers arrays, linked lists, trees, graphs, sorting, and searching.',
+                image: './assets/WhatsApp Image 2024-09-09 at 02.14.25.jpeg'
+            }
+        };
+
+        // Display course details dynamically
+        const courseDetail = document.getElementById( 'course-detail' );
+
+        if ( courses[ courseName ] ) {
+            const course = courses[ courseName ];
+            courseDetail.innerHTML = `
+                <img src="${ course.image }" alt="${ course.title } Image">
+                <h2>${ course.title }</h2>
+                <p>${ course.description }</p>
+                <a href="#" class="cta-btn" id="enroll-btn">Enroll Now</a>
+            `;
+
+            // Add event listener to the enroll button
+            document.getElementById( 'enroll-btn' ).addEventListener( 'click', function ( e ) {
+                e.preventDefault();
+                enrollCourse( courseName );
+            } );
+        } else {
+            courseDetail.innerHTML = `<p>Course not found. Please select a valid course from the courses page.</p>`;
+        }
+
+        function enrollCourse ( courseName ) {
+            let enrolledCourses = JSON.parse( localStorage.getItem( 'enrolledCourses' ) ) || [];
+            if ( !enrolledCourses.includes( courseName ) ) {
+                enrolledCourses.push( courseName );
+                localStorage.setItem( 'enrolledCourses', JSON.stringify( enrolledCourses ) );
+                showPopup();
+            } else {
+                alert( 'You are already enrolled in this course.' );
+            }
+        }
+
+        function showPopup () {
+            const popup = document.getElementById( 'popup' );
+            popup.classList.add( 'show' );
+            setTimeout( () => {
+                popup.classList.remove( 'show' );
+            }, 3000 );
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>User Profile</title>
+</head>
+
+<body>
+    <!-- Navbar Component -->
+    <div id="navbar"></div>
+    <script> loadNavbar(); </script>
+    <div class="profile-container">
+        <h2>User Profile</h2>
+        <!-- User Profile Picture -->
+        <div class="user-info">
+            <div class="user-details">
+                <img src="./assets/catcool.png" alt="User Profile Picture" class="profile-pic">
+                <div class="user-text">
+                    <h3>Username: Deep Rushil</h3>
+                    <p>Email: rushil@example.com</p>
+                </div>
+            </div>
+        </div>
+        <!-- Enrolled Courses -->
+        <h3>Enrolled Courses</h3>
+        <div class="enrolled-courses course-grid" id="enrolled-courses">
+            <!-- Enrolled courses will be dynamically injected here -->
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        const courses = {
+            'HTML': {
+                title: 'HTML',
+                description: 'Learn the basics of HTML for web development.',
+                image: './assets/WhatsApp Image 2024-09-09 at 02.13.28.jpeg'
+            },
+            'Python': {
+                title: 'Python',
+                description: 'Master Python programming for data science, AI, and web development.',
+                image: './assets/WhatsApp Image 2024-09-09 at 02.14.45.jpeg'
+            },
+            'CSS': {
+                title: 'CSS',
+                description: 'Understand the art of styling web pages using CSS.',
+                image: './assets/WhatsApp Image 2024-09-09 at 02.13.54.jpeg'
+            },
+            'JavaScript': {
+                title: 'JavaScript',
+                description: 'Learn JavaScript for dynamic and interactive web development.',
+                image: './assets/WhatsApp Image 2024-09-09 at 02.15.12.jpeg'
+            },
+            'FullStack': {
+                title: 'Full Stack Development',
+                description: 'Become a full stack developer by mastering both frontend and backend technologies.',
+                image: './assets/WhatsApp Image 2024-09-09 at 02.15.01.jpeg'
+            },
+            'DSA': {
+                title: 'Data Structures and Algorithms (DSA)',
+                description: 'Learn fundamental data structures and algorithms for efficient problem-solving.',
+                image: './assets/WhatsApp Image 2024-09-09 at 02.14.25.jpeg'
+            }
+        };
+
+        function loadEnrolledCourses () {
+            const enrolledCourses = JSON.parse( localStorage.getItem( 'enrolledCourses' ) ) || [];
+            const enrolledCoursesContainer = document.getElementById( 'enrolled-courses' );
+
+            enrolledCourses.forEach( courseName => {
+                if ( courses[ courseName ] ) {
+                    const course = courses[ courseName ];
+                    const progress = Math.floor( Math.random() * 100 ); // Random progress for now
+                    const courseCard = document.createElement( 'div' );
+                    courseCard.classList.add( 'course-card' );
+                    courseCard.innerHTML = `
+                        <img src="${ course.image }" alt="${ course.title } Course Image">
+                        <h3>${ course.title }</h3>
+                        <p>${ course.description }</p>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: ${ progress }%;"></div>
+                        </div>
+                    `;
+                    enrolledCoursesContainer.appendChild( courseCard );
+                }
+            } );
+        }
+
+        document.addEventListener( 'DOMContentLoaded', loadEnrolledCourses );
+    </script>
+</body>
+
+</html>
